@@ -96,7 +96,8 @@ const handleNoteDelete = (e) => {
 // Sets the activeNote and displays it
 const handleNoteView = (e) => {
   e.preventDefault();
-  activeNote = JSON.parse(e.target.parentElement.getAttribute('data-note'));
+  //activeNote = JSON.parse(e.target.parentElement.getAttribute('data-note'));
+  activeNote = JSON.parse(e.target.getAttribute('data-note'));
   renderActiveNote();
 };
 
@@ -130,7 +131,7 @@ const renderNoteList = async (notes) => {
 
     const spanEl = document.createElement('span');
     spanEl.innerText = text;
-    spanEl.addEventListener('click', handleNoteView);
+    liEl.addEventListener('click', handleNoteView);
 
     liEl.append(spanEl);
 
@@ -158,6 +159,7 @@ const renderNoteList = async (notes) => {
   jsonNotes.forEach((note) => {
     const li = createLi(note.title);
     li.dataset.note = JSON.stringify(note);
+    //li.dataset.note = JSON.stringify(note.id);
 
     noteListItems.push(li);
   });
@@ -175,6 +177,10 @@ if (window.location.pathname === '/notes') {
   newNoteBtn.addEventListener('click', handleNewNoteView);
   noteTitle.addEventListener('keyup', handleRenderSaveBtn);
   noteText.addEventListener('keyup', handleRenderSaveBtn);
+
 }
+$(document).on('click', '.list-group-item', function(e) {
+  handleNoteView(e)
+})
 
 getAndRenderNotes();
